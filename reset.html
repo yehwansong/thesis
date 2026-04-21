@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+  button { padding: 40px 60px; font-size: 24px; font-family: monospace; cursor: pointer; }
+  #status { position: fixed; bottom: 20px; font-size: 13px; }
+  .ok { color: green; } .err { color: red; }
+</style>
+</head>
+<body>
+
+<button onclick="reset()">RESET DB</button>
+<div id="status"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase, ref, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC72-spUFEX2l3E4vRQawR2MUI-Lu8ijRE",
+    authDomain: "seen-117ab.firebaseapp.com",
+    databaseURL: "https://seen-117ab-default-rtdb.firebaseio.com",
+    projectId: "seen-117ab",
+    storageBucket: "seen-117ab.firebasestorage.app",
+    messagingSenderId: "21506282802",
+    appId: "1:21506282802:web:739a99d712d95ad6ca732b",
+    measurementId: "G-3HN2S100KW"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+  const s   = document.getElementById("status");
+
+  window.reset = async function() {
+    if (!confirm("Delete all picks?")) return;
+    try {
+      await remove(ref(db, "picks"));
+      s.className = "ok";
+      s.textContent = "✓ DB cleared — " + new Date().toLocaleTimeString();
+    } catch(e) {
+      s.className = "err";
+      s.textContent = "Error: " + e.message;
+    }
+  };
+</script>
+</body>
+</html>

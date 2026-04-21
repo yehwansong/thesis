@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 100vw; height: 100vh; overflow: hidden; background: #000; font-family: monospace; user-select: none; }
+  #img { width: 100%; height: 100%; object-fit: contain; display: none; }
+  #label { position: fixed; top: 8px; left: 8px; color: #fff; font-size: 13px; opacity: 0.7; }
+  #log { position: fixed; bottom: 0; left: 0; right: 0; font-size: 11px; max-height: 60px; overflow-y: auto; background: rgba(0,0,0,0.6); color: #ccc; padding: 4px 8px; }
+  #log div { padding: 1px 0; }
+  .ok { color: #4f4; } .err { color: #f44; }
+</style>
+</head>
+<body>
+
+<img id="img" />
+<div id="label"></div>
+<div id="log"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC72-spUFEX2l3E4vRQawR2MUI-Lu8ijRE",
+    authDomain: "seen-117ab.firebaseapp.com",
+    databaseURL: "https://seen-117ab-default-rtdb.firebaseio.com",
+    projectId: "seen-117ab",
+    storageBucket: "seen-117ab.firebasestorage.app",
+    messagingSenderId: "21506282802",
+    appId: "1:21506282802:web:739a99d712d95ad6ca732b",
+    measurementId: "G-3HN2S100KW"
+  };
+
+  // ── CHANGE RANGE HERE ──
+  const FOLDER = "sun_images/";
+  const PREFIX = "sun_";
+  const EXT    = ".jpg";
+  const FROM   = 1;
+  const TO     = 98;
+  // ──────────────────────
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+
+  const imgEl   = document.getElementById("img");
+  const labelEl = document.getElementById("label");
+
+  function pad(n) { return String(n).padStart(2, "0"); }
+
+  function log(msg, cls) {
+    const el = document.createElement("div");
+    if (cls) el.className = cls;
+    el.textContent = new Date().toLocaleTimeString() + " " + msg;
+    document.getElementById("log").prepend(el);
+  }
+
+  async function pick() {
+    const n      = Math.floor(Math.random() * (TO - FROM + 1)) + FROM;
+    const chosen = FOLDER + PREFIX + pad(n) + EXT;
+
+    // swap image instantly
+    imgEl.src         = chosen;
+    imgEl.style.display = "block";
+    labelEl.textContent = chosen;
+
+    try {
+      await push(ref(db, "picks"), { value: chosen, timestamp: Date.now() });
+      log("Sent: " + chosen, "ok");
+    } catch(e) {
+      log("Error: " + e.message, "err");
+    }
+  }
+
+  document.addEventListener("touchstart", e => { e.preventDefault(); pick(); }, { passive: false });
+  document.addEventListener("mousedown", pick);
+</script>
+</body>
+</html>
