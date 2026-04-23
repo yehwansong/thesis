@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sun Averager</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      /*background: url('bg.png') center/cover no-repeat;*/
+    }
+    #status { font-family: monospace; font-size: 14px; padding: 16px; color: white; }
+    canvas {
+    display: none;
+    position: fixed;
+    top: 27vh;
+    left: 71vh;
+    width: 21vh;
+    height: 21vh;
+    object-fit: cover;
+    transform: scaleY(1.35);
+    filter: contrast(1.5);
+    z-index: 10
+    }
+    .box{
+    position: absolute;
+    transform-origin: left top;
+    background-size: cover;
+    }
+    .box_1{
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background: radial-gradient(white 30%, black);
+    }
+    .box_2{
+    width: 39vh;
+    height: 40vh;
+    left: 63vh;
+    top: 17vh;
+    background: radial-gradient(#f2c44d 30%, #e47900);
+    }
+    .box_3{
+    width: 27vh;
+    height: 13vh;
+    left: 40vh;
+    top: 52vh;
+    background: radial-gradient(#ffffff 30%, #000000)
+    }
+    .box_4{
+    width: 22vh;
+    height: 13vh;
+    left: 44vh;
+    top: 59vh;
+    transform: skewY(22deg);
+    background-image: url(sky.jpg);
+    filter: brightness(1.5);}
+    .box_5{
+        width: 6vh;
+        height: 4vh;
+        left: 38vh;
+        top: 61vh;
+        transform: skewY(22deg);
+        background-image: url(sky.jpg);
+        filter: brightness(1.5);}
+        .box_6{
+    width: 17vh;
+    height: 29vh;
+    left: 100vh;
+    top: 50vh;
+    background: #ff7f00;
+  }
+  </style>
+</head>
+<body>
+<div class="box_1 box"></div>
+<div class="box_2 box"></div>
+<div class="box_3 box"></div>
+<div class="box_4 box"></div>
+<div class="box_5 box"></div>
+<div class="box_6 box"></div>
+</body>
+</html>

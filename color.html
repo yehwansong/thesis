@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Color Touch Flash</title>
+  <style>
+    body { margin: 0; height: 100vh; background-color: black; }
+    body.class-0 { background-color: #ff2400; }
+    body.class-1 { background-color: #fff200; }
+    body.class-2 { background-color: #0033ed; }
+    body.class-3 { background-color: #00ef77; }
+  </style>
+</head>
+<body>
+<script>
+let cycleTimer = null;
+let stopTimer = null;
+let colorIndex = 0;
+
+document.addEventListener("touchstart", () => {
+  // Clear any existing timers
+  if (cycleTimer) clearInterval(cycleTimer);
+  if (stopTimer) clearTimeout(stopTimer);
+
+  // Start rapid color cycling
+  cycleTimer = setInterval(() => {
+    document.body.className = "class-" + (colorIndex % 4);
+    colorIndex++;
+  }, 100);
+
+  // Stop after 0.5 seconds and go back to black
+  stopTimer = setTimeout(() => {
+    clearInterval(cycleTimer);
+    cycleTimer = null;
+    document.body.className = "";
+  }, 500);
+});
+</script>
+</body>
+</html>
