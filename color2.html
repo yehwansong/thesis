@@ -23,18 +23,18 @@ document.addEventListener("touchstart", () => {
   if (cycleTimer) clearInterval(cycleTimer);
   if (stopTimer) clearTimeout(stopTimer);
 
-  // Start slower color cycling (3x longer)
+  // Start rapid color cycling
   cycleTimer = setInterval(() => {
     document.body.className = "class-" + (colorIndex % 4);
     colorIndex++;
-  }, 300);
+  }, 100);
 
-  // Stop after 1.5 seconds and go back to black
+  // Run 3x longer but keep same transition speed
   stopTimer = setTimeout(() => {
     clearInterval(cycleTimer);
     cycleTimer = null;
     document.body.className = "";
-  }, 1500);
+  }, 1500); // was 500
 });
 </script>
 </body>
